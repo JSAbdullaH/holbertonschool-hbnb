@@ -4,9 +4,9 @@ from datetime import datetime
 
 class BaseModel:
     def __init__(self):
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        self.id = self.generate_id()
+        self.created_at = self.get_current_time()
+        self.updated_at = self.get_current_time()
 
     def generate_id(self):
         return str(uuid.uuid4())
@@ -16,15 +16,15 @@ class BaseModel:
 
     def save(self):
         self.updated_at = self.get_current_time()
-            
+
     def update(self, data):
-    for key, value in data.items():
-        setattr(self, key, value)
-    self.save()
+        for key, value in data.items():
+            setattr(self, key, value)
+        self.save()
 
     def to_dict(self):
-       return {
-           "id": self.id,
-           "created_at": self.created_at.isoformat(),
-           "updated_at": self.updated_at.isoformat(),
-       }
+        return {
+            "id": self.id,
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat(),
+        }
