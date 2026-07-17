@@ -2,25 +2,24 @@ from app.models.basemodel import BaseModel
 
 
 class Place(BaseModel):
-    def __init__(self, name, description, location, price_range, owner):
+    def __init__(self, title, description, price, latitude, longitude, owner):
         super().__init__()
-
-        self.name = name
+        self.title = title
         self.description = description
-        self.location = location
-        self.price_range = price_range
+        self.price = price
+        self.latitude = latitude
+        self.longitude = longitude
         self.owner = owner
+        self.reviews = []
+        self.amenities = []
+
+    def add_review(self, review):
+        """Add a review to the place."""
+        self.reviews.append(review)
+
+    def add_amenity(self, amenity):
+        """Add an amenity to the place."""
+        self.amenities.append(amenity)
 
     def __str__(self):
-        return f"Place(name={self.name}, location={self.location})"
-
-    def to_dict(self):
-        data = super().to_dict()
-        data.update({
-            "name": self.name,
-            "description": self.description,
-            "location": self.location,
-            "price_range": self.price_range,
-            "owner": self.owner
-        })
-        return data
+        return f"Place({self.title}, {self.price})"
