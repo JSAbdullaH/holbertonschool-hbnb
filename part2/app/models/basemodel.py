@@ -19,7 +19,8 @@ class BaseModel:
 
     def update(self, data):
         for key, value in data.items():
-            setattr(self, key, value)
+            if hasattr(self, key):
+                setattr(self, key, value)
         self.save()
 
     def to_dict(self):
