@@ -1,138 +1,40 @@
-#!/usr/bin/python3
-"""Users API endpoints."""
-
-from flask import request
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
 
-api = Namespace(
-    "users",
-    description="Operations related to users"
-)
+api = Namespace('users', description='User operations')
 
-user_model = api.model(
-    "User",
-    {
-        "username": fields.String(
-            required=True,
-            description="User username"
-        ),
-        "email": fields.String(
-            required=True,
-            description="User email"
-        ),
-        "password": fields.String(
-            required=True,
-            description="User password"
-        )
-    }
-)
-
-user_response = api.model(
-    "UserResponse",
-    {
-        "id": fields.String,
-        "username": fields.String,
-        "email": fields.String
-    }
-)
+user_model = api.model('User', {
+    'first_name': fields.String(required=True, description='First name of the user'),
+    'last_name': fields.String(required=True, description='Last name of the user'),
+    'email': fields.String(required=True, description='Email of the user')
+})
 
 
-def serialize_user(user):
-    """Convert User object to dictionary."""
-    return {
-        "id": user.id,
-        "username": user.username,
-        "email": user.email
-    }
-
-
-def validate_user_data(data, partial=False):
-    """Validate user data."""
-
-    if not data:
-        return False, "No input data provided"
-
-    required_fields = ["username", "email", "password"]
-
-    if not partial:
-        for field in required_fields:
-            if field not in data:
-                return False, f"Missing required field: {field}"
-
-    if "email" in data and "@" not in data["email"]:
-        return False, "Invalid email format"
-
-    if "password" in data and len(data["password"]) < 6:
-        return False, "Password must be at least 6 characters long"
-
-    return True, None
-
-
-@api.route("/")
+@api.route('/')
 class UserList(Resource):
-    """User collection endpoints."""
-
-    @api.marshal_list_with(user_response)
-    def get(self):
-        """Return all users."""
-        users = facade.get_all_users()
-        return [serialize_user(user) for user in users], 200
-
     @api.expect(user_model, validate=True)
-    @api.marshal_with(user_response, code=201)
+    @api.response(201, 'User successfully created')
+    @api.response(400, 'Email already registered')
+    @api.response(400, 'Invalid input data')
     def post(self):
-        """Create a new user."""
+        """Register a new user"""
+        user_data = api.payload
 
-        data = request.get_json()
+        existing_user = facade.get_user_by_email(user_data['email'])
+        if existing_user:
+            return {'error': 'Email already registered'}, 400
 
-        valid, error = validate_user_data(data)
-
-        if not valid:
-            return {"error": error}, 400
-
-        user = facade.create_user(
-            username=data["username"],
-            email=data["email"],
-            password=data["password"]
-        )
-
-        return serialize_user(user), 201
+        new_user = facade.create_user(user_data)
+        return {'id': new_user.id, 'first_name': new_user.first_name, 'last_name': new_user.last_name, 'email': new_user.email}, 201
 
 
-@api.route("/<string:user_id>")
-@api.param("user_id", "User ID")
-class User(Resource):
-    """Single user endpoints."""
-
-    @api.marshal_with(user_response)
+@api.route('/<user_id>')
+class UserResource(Resource):
+    @api.response(200, 'User details retrieved successfully')
+    @api.response(404, 'User not found')
     def get(self, user_id):
-        """Return one user."""
-
+        """Get user details by ID"""
         user = facade.get_user(user_id)
-
-        if user is None:
-            return {"error": "User not found"}, 404
-
-        return serialize_user(user), 200
-
-    @api.expect(user_model, validate=True)
-    @api.marshal_with(user_response)
-    def put(self, user_id):
-        """Update a user."""
-
-        user = facade.get_user(user_id)
-
-        if user is None:
-            return {"error": "User not found"}, 404
-
-        data = request.get_json()
-
-        valid, error = validate_user_data(data, partial=True)
-
-        if not valid:
-            return {"error": error}, 400
-
-        updated_user = facade.update_user(user_id, data)
-
-        return serialize_user(updated_user), 200
+        if not user:
+            return {'error': 'User not found'}, 404
+        return {'id': user.id, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email}, 200

@@ -1,7 +1,3 @@
-#!/usr/bin/python3
-"""Generic in-memory repository."""
-
-
 class InMemoryRepository:
     def __init__(self):
         self._storage = {}
@@ -17,15 +13,12 @@ class InMemoryRepository:
 
     def update(self, obj_id, data):
         obj = self.get(obj_id)
-
-        if obj is None:
-            return None
-
-        obj.update(data)
-        return obj
+        if obj:
+            obj.update(data)
 
     def delete(self, obj_id):
         if obj_id in self._storage:
             del self._storage[obj_id]
-            return True
-        return False
+
+    def get_by_attribute(self, attr_name, attr_value):
+        return next((obj for obj in self._storage.values() if getattr(obj, attr_name) == attr_value), None)
