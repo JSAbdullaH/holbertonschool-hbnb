@@ -65,7 +65,15 @@ class HBnBFacade:
 
     # ----- Reviews -----
     def create_review(self, review_data):
-        review = Review(**review_data)
+        data = dict(review_data)
+        user = self.user_repo.get(data.pop('user_id', None))
+        if not user:
+            raise ValueError("Invalid user_id")
+        place = self.place_repo.get(data.pop('place_id', None))
+        if not place:
+            raise ValueError("Invalid place_id")
+        review = Review(place=place, user=user, **data)
+        place.add_review(review)
         self.review_repo.add(review)
         return review
 
@@ -75,11 +83,26 @@ class HBnBFacade:
     def get_all_reviews(self):
         return self.review_repo.get_all()
 
-    def update_review(self, review_id, data):
+    def get_reviews_by_place(self, place_id):
+        place = self.place_repo.get(place_id)
+        if not place:
+            return None
+        return place.reviews
+
+    def update_review(self, review_id, review_data):
+        data = dict(review_data)
+        data.pop('user_id', None)
+        data.pop('place_id', None)
+        if 'rating' in data:
+            if not isinstance(data['rating'], int) or not 1 <= data['rating'] <= 5:
+                raise ValueError("rating must be an integer between 1 and 5")
         self.review_repo.update(review_id, data)
         return self.review_repo.get(review_id)
 
     def delete_review(self, review_id):
+        review = self.review_repo.get(review_id)
+        if review and review in review.place.reviews:
+            review.place.reviews.remove(review)
         return self.review_repo.delete(review_id)
 
     # ----- Amenities -----
