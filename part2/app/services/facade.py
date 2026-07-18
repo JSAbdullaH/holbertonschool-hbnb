@@ -35,7 +35,18 @@ class HBnBFacade:
 
     # ----- Places -----
     def create_place(self, place_data):
-        place = Place(**place_data)
+        data = dict(place_data)
+        owner_id = data.pop('owner_id', None)
+        owner = self.user_repo.get(owner_id)
+        if not owner:
+            raise ValueError("Invalid owner_id")
+        amenity_ids = data.pop('amenities', [])
+        place = Place(owner=owner, **data)
+        for a_id in amenity_ids:
+            amenity = self.amenity_repo.get(a_id)
+            if not amenity:
+                raise ValueError("Invalid amenity ID: " + str(a_id))
+            place.add_amenity(amenity)
         self.place_repo.add(place)
         return place
 
@@ -45,7 +56,10 @@ class HBnBFacade:
     def get_all_places(self):
         return self.place_repo.get_all()
 
-    def update_place(self, place_id, data):
+    def update_place(self, place_id, place_data):
+        data = dict(place_data)
+        data.pop('owner_id', None)
+        data.pop('amenities', None)
         self.place_repo.update(place_id, data)
         return self.place_repo.get(place_id)
 
