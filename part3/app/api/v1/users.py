@@ -49,12 +49,20 @@ class UserResource(Resource):
             return {'error': 'User not found'}, 404
         return {'id': user.id, 'first_name': user.first_name,'last_name': user.last_name, 'email': user.email}, 200
 
+    @jwt_required()
     @api.expect(user_model, validate=True)
     @api.response(200, 'User updated successfully')
     @api.response(404, 'User not found')
     @api.response(400, 'Invalid input data')
+    @api.response(403, 'Unauthorized action')
     def put(self, user_id):
         """Update a user's information"""
+        current_user_id = get_jwt_identity()
+        claims = get_jwt()
+
+        if current_user_id != user_id and not claims.get('is_admin'):
+            return {'error': 'Unauthorized action'}, 403
+
         user = facade.get_user(user_id)
         if not user:
             return {'error': 'User not found'}, 404
