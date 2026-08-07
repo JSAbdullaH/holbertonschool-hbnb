@@ -25,6 +25,8 @@ class User(BaseModel):
         nullable=False,
         default=False
     )
+    places = db.relationship('Place', backref='user', lazy=True)
+    reviews = db.relationship('Review', backref='user', lazy=True)
 
     def __init__(
         self,
