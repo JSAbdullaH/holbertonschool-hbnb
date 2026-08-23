@@ -3,44 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Airbnb Clone - Home</title>
+    <title>hbnb - Home</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <header>
-        <img src="images/logo.png" alt="Airbnb Logo" class="logo">
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="login.html" class="login-button">Login</a>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="hbnb Logo" class="logo">
+        <nav id="auth-link">
+            <a href="/login" class="login-button">Login</a>
         </nav>
     </header>
 
     <main>
         <h1>Explore nearby stays</h1>
-        <section class="places-list">
-            <article class="place-card">
-                <h2>Apartment in Riyadh</h2>
-                <p>Price: $150 / night</p>
-                <a href="place.html" class="details-button">View Details</a>
-            </article>
-
-            <article class="place-card">
-                <h2>Condo in Jeddah</h2>
-                <p>Price: $95 / night</p>
-                <a href="place.html" class="details-button">View Details</a>
-            </article>
-
-            <article class="place-card">
-                <h2>Villa in Dubai</h2>
-                <p>Price: $300 / night</p>
-                <a href="place.html" class="details-button">View Details</a>
-            </article>
+        <section class="places-list" id="places-list">
+            <p>Loading places...</p>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 Airbnb Clone. All rights reserved.</p>
+        <p>&copy; 2026 hbnb  All rights reserved.</p>
     </footer>
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>

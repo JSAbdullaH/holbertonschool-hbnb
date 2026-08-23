@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Review - Airbnb Clone</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="images/icon.png" type="image/png">
+    <title>Add Review</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <header>
-        <img src="images/logo.png" alt="Airbnb Logo" class="logo">
-        <nav>
-            <a href="index.html">Home</a>
+        <a href="index.html"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="hbnb Logo" class="logo"></a>
+        <nav id="auth-link">
             <a href="login.html" class="login-button">Login</a>
         </nav>
     </header>
 
     <main class="add-review">
-        <form action="#" method="POST" class="form">
+        <form id="add-review-form" class="form">
             <h2>Add your review</h2>
             
             <div class="form-group">
@@ -41,7 +40,8 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Airbnb Clone. All rights reserved.</p>
+        <p>&copy; 2026 hbnb All rights reserved.</p>
     </footer>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>
