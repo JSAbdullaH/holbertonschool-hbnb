@@ -9,33 +9,46 @@
 </head>
 <body>
     <header>
-        <a href="index.html"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="hbnb Logo" class="logo"></a>
-        <nav id="auth-link">
-            <a href="login.html" class="login-button">Login</a>
+        <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="hbnb Logo" class="logo"></a>
+        <nav id="auth-nav">
+            <a href="/login" id="login-link" class="login-button" style="display: none;">Login</a>
         </nav>
     </header>
 
-    <main class="add-review">
-        <form id="add-review-form" class="form">
-            <h2>Add your review</h2>
-            
-            <div class="form-group">
-                <label for="rating">Rating (1-5)</label>
-                <select id="rating" name="rating" required>
-                    <option value="5">5 - Excellent</option>
-                    <option value="4">4 - Good</option>
-                    <option value="3">3 - Okay</option>
-                    <option value="2">2 - Poor</option>
-                    <option value="1">1 - Terrible</option>
-                </select>
+    <main class="add-review-page">
+        <form id="add-review-form" class="form premium-form">
+            <div class="form-header">
+                <i class="fa-solid fa-star has-sparkles"></i>
+                <h2>Add your review</h2>
+                <p>Share your experience to help others</p>
             </div>
             
-            <div class="form-group">
+            <div class="form-group input-with-icon">
+                <label for="rating">Rating</label>
+                <div class="select-wrapper">
+                    <i class="fa-solid fa-star-half-stroke icon"></i>
+                    <select id="rating" name="rating" required>
+                        <option value="5" selected>5 - Excellent (Highly Recommend)</option>
+                        <option value="4">4 - Good (Very Nice)</option>
+                        <option value="3">3 - Okay (Average)</option>
+                        <option value="2">2 - Poor (Needs Improvement)</option>
+                        <option value="1">1 - Terrible (Stay Away)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group input-with-icon">
                 <label for="comment">Comment</label>
-                <textarea id="comment" name="comment" rows="5" required placeholder="Share your experience..."></textarea>
+                <div class="textarea-wrapper">
+                    <i class="fa-regular fa-comment-dots icon"></i>
+                    <textarea id="comment" name="comment" rows="5" required placeholder="What did you love about this place?"></textarea>
+                </div>
             </div>
             
-            <button type="submit">Submit Review</button>
+            <button type="submit" class="submit-btn">
+                <span>Submit Review</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
         </form>
     </main>
 

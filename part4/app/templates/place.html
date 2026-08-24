@@ -9,30 +9,70 @@
 </head>
 <body>
     <header>
-        <a href="index.html"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="hbnb Logo" class="logo"></a>
-        <nav id="auth-link">
-            <a href="login.html" class="login-button">Login</a>
+        <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="hbnb Logo" class="logo"></a>
+        <nav id="auth-nav">
+            <a href="/login" id="login-link" class="login-button" style="display: none;">Login</a>
         </nav>
     </header>
 
-    <main class="place-details" id="place-details">
-        <h1 id="place-title">Loading...</h1>
-        
-        <div class="place-info">
-            <p><strong>Host:</strong> <span id="place-host"></span></p>
-            <p><strong>Price:</strong> <span id="place-price"></span></p>
-            <p><strong>Description:</strong> <span id="place-desc"></span></p>
-            <p><strong>Amenities:</strong> <span id="place-amenities"></span></p>
+    <main class="premium-place-details" id="place-details">
+        <div class="place-header">
+            <h1 id="place-title">Loading...</h1>
+            <div class="place-meta">
+                <span><i class="fa-solid fa-star"></i> Top rated</span>
+                <span><i class="fa-solid fa-medal"></i> Superhost</span>
+            </div>
         </div>
+        
+        <div class="place-content">
+            <div class="place-info-card">
+                <div class="info-item">
+                    <div class="info-icon"><i class="fa-solid fa-circle-user"></i></div>
+                    <div class="info-text">
+                        <strong>Hosted by</strong>
+                        <span id="place-host"></span>
+                    </div>
+                </div>
+                
+                <div class="info-divider"></div>
 
-        <section>
-            <h2>Reviews</h2>
-            <div id="reviews-container">
+                <div class="info-item">
+                    <div class="info-icon"><i class="fa-solid fa-tag"></i></div>
+                    <div class="info-text">
+                        <strong>Price</strong>
+                        <span id="place-price"></span>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon"><i class="fa-solid fa-align-left"></i></div>
+                    <div class="info-text">
+                        <strong>Description</strong>
+                        <span id="place-desc"></span>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon"><i class="fa-solid fa-wifi"></i></div>
+                    <div class="info-text">
+                        <strong>Amenities</strong>
+                        <span id="place-amenities"></span>
+                    </div>
+                </div>
             </div>
-            
-            <div id="add-review-section" style="margin-top: 20px;">
-            </div>
-        </section>
+
+            <section class="reviews-section">
+                <div class="reviews-header">
+                    <h2><i class="fa-solid fa-star"></i> Guest Reviews</h2>
+                </div>
+                
+                <div id="reviews-container" class="reviews-grid">
+                </div>
+                
+                <div id="add-review-section" class="add-review-wrapper">
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer>

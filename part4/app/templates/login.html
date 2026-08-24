@@ -9,32 +9,45 @@
 </head>
 <body>
     <header>
-        <a href="index.html"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="hbnb Logo" class="logo"></a>
+        <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="hbnb Logo" class="logo"></a>
         <nav>
-            <a href="index.html">Home</a>
+            <a href="/" style="color: #222; text-decoration: none; font-weight: 600; font-size: 15px;"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
         </nav>
     </header>
 
-    <main>
-        <form id="login-form" class="form">
-            <h2>Log in</h2>
+    <main class="login-page">
+        <form id="login-form" class="form premium-form">
+            <div class="form-header">
+                <i class="fa-solid fa-circle-user has-sparkles" style="color: #FF385C;"></i>
+                <h2>Welcome to hbnb</h2>
+                <p>Log in to your account</p>
+            </div>
             
-            <div class="form-group">
+            <div class="form-group input-with-icon">
                 <label for="email">Email address</label>
-                <input type="email" id="email" name="email" required>
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-envelope icon"></i>
+                    <input type="email" id="email" name="email" required placeholder="name@example.com">
+                </div>
             </div>
             
-            <div class="form-group">
+            <div class="form-group input-with-icon">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock icon"></i>
+                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                </div>
             </div>
             
-            <button type="submit">Continue</button>
+            <button type="submit" class="submit-btn">
+                <span>Continue</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
         </form>
     </main>
 
     <footer>
-        <p>&copy; 2026 hbnb  All rights reserved.</p>
+        <p>&copy; 2026 hbnb All rights reserved.</p>
     </footer>
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>

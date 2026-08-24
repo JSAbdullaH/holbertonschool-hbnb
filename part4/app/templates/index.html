@@ -9,21 +9,42 @@
 </head>
 <body>
     <header>
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="hbnb Logo" class="logo">
-        <nav id="auth-link">
-            <a href="/login" class="login-button">Login</a>
+        <a href="/">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="hbnb Logo" class="logo">
+        </a>
+        <nav id="auth-nav">
+            <a href="/login" id="login-link" class="login-button" style="display: none;">Login</a>
         </nav>
     </header>
 
-    <main>
-        <h1>Explore nearby stays</h1>
-        <section class="places-list" id="places-list">
-            <p>Loading places...</p>
+    <main class="home-container">
+        <div class="home-header">
+            <h1>Explore nearby stays</h1>
+            
+            <div class="filter-wrapper">
+                <div class="filter-icon"><i class="fa-solid fa-sliders"></i></div>
+                <div class="filter-content">
+                    <label for="price-filter">Max Price</label>
+                    <select id="price-filter">
+                        <option value="All">Any price</option>
+                        <option value="50">Up to $50</option>
+                        <option value="100">Up to $100</option>
+                        <option value="200">Up to $200</option>
+                        <option value="500">Up to $500</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+=        <section class="places-grid" id="places-list">
+            <div class="loading-state">
+                <i class="fa-solid fa-spinner fa-spin"></i> Loading amazing places...
+            </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 hbnb  All rights reserved.</p>
+        <p>&copy; 2026 hbnb All rights reserved.</p>
     </footer>
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
